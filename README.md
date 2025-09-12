@@ -34,7 +34,7 @@ npm install
 - Lancer l'application :
 
 ```bash
-node app.js
+npm start
 ```
 
 - Accéder à l'application à l'addresse http://localhost:3000
