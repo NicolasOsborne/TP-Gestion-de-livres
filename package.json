@@ -4,7 +4,7 @@
   "description": "Ce TP est réalisé dans le cadre du module \"Clean Architecture\" en M2 Ingénierie du Web à l'ESGI, dispensé par Laurent BELLON.",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node src/infrastructure/main/app.ts",
+    "start": "node --loader ts-node/esm src/infrastructure/main/app.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

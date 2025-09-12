@@ -3,6 +3,7 @@ import { Book } from '../../../domain/entities/Book.js'
 import { promises as fs } from 'fs'
 import path from 'path'
 
+// Adaptateur de persistance qui stocke les livres dans un fichier JSON.
 export class JsonBookRepositoryAdapter implements BookRepositoryPort {
   private readonly filePath = path.resolve('data', 'books.json')
   private books: Book[] = []
@@ -16,15 +17,27 @@ export class JsonBookRepositoryAdapter implements BookRepositoryPort {
   private async loadBooks(): Promise<void> {
     try {
       const data = await fs.readFile(this.filePath, 'utf-8')
+
+      if (data === '') {
+        console.log(
+          "Fichier 'books.json' vide, initialisation d'un nouveau repository."
+        )
+        this.books = []
+        return
+      }
+
       const rawBooks = JSON.parse(data)
       this.books = rawBooks.map(
         (book: any) => new Book(book.title, book.author, book.isbn, book.id)
       )
       console.log('Livres chargés avec succès depuis le fichier JSON.')
     } catch (error) {
-      if (error instanceof Error && (error as any).code === 'ENOENT') {
+      if (
+        error instanceof Error &&
+        ((error as any).code === 'ENOENT' || error.name === 'SyntaxError')
+      ) {
         console.log(
-          "Fichier 'books.json' non trouvé, initialisation d'un nouveau repository."
+          "Fichier 'books.json' non trouvé ou invalide, initialisation d'un nouveau repository."
         )
         this.books = []
         try {
