@@ -1,7 +1,7 @@
 import type { BookOutputPort } from '../../../domain/boundaries/output/BookOutputPort.js'
 import { Book } from '../../../domain/entities/Book.js'
 
-// Ce présentateur gère l'affichage des résultats des use cases
+// Ce présentateur gère l'affichage des résultats des use cases (dans la console)
 export class BookConsolePresenter implements BookOutputPort {
   presentBooks(books: Book[]): void {
     console.log('--- Liste des livres ---')

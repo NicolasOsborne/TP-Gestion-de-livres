@@ -11,7 +11,7 @@ import { GetBookUseCase } from '../../application/usecases/GetBookUseCase.js'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-async function bootstrap() {
+async function main() {
   const app = express()
   const port = 3000
 
@@ -74,4 +74,4 @@ async function bootstrap() {
   })
 }
 
-bootstrap().catch(console.error)
+main().catch(console.error)
