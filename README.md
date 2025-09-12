@@ -18,8 +18,8 @@ Le module de gestion de livres à développer doit permettre d'effectuer des op�
 
 ## Technologies utilisées
 
-- Node.js
-- HTML, CSS et JS
+- Node.js en TypeScript
+- HTML, CSS et JavaScript
 
 ## Lancer l'application
 
