@@ -1,25 +1,38 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
+import path from 'path'
+import { fileURLToPath } from 'url'
 import { JsonBookRepositoryAdapter } from '../adapters/repositories/JsonBookRepositoryAdapter.js'
 import { AddBookUseCase } from '../../application/usecases/AddBookUseCase.js'
 import { ListBooksUseCase } from '../../application/usecases/ListBooksUseCase.js'
 import { GetBookUseCase } from '../../application/usecases/GetBookUseCase.js'
 
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
 async function bootstrap() {
   const app = express()
-  const PORT = 3000
+  const port = 3000
 
   app.use(bodyParser.json())
   app.use(cors())
+
+  app.use(express.static(path.join(__dirname, '../../../frontend')))
+
+  app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../../frontend/index.html'))
+  })
 
   const bookRepository = await JsonBookRepositoryAdapter.createAndLoad()
   const addBookUseCase = new AddBookUseCase(bookRepository)
   const listBooksUseCase = new ListBooksUseCase(bookRepository)
   const getBookUseCase = new GetBookUseCase(bookRepository)
 
-  app.listen(PORT, () => {
-    console.log(`Le serveur de l'API est démarré sur http://localhost:${PORT}`)
+  app.listen(port, () => {
+    console.log(
+      `Le serveur de l'API des livres est démarré sur http://localhost:${port}`
+    )
   })
 
   app.post('/books', async (req, res) => {
